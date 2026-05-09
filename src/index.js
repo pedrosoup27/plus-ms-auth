@@ -3,9 +3,16 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { Pool } = require("pg");
+const cors = require("cors");
+
 
 const app = express();
 app.use(express.json());
+
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:4001"],
+  credentials: true
+}));
 
 const pool = new Pool({
   host: process.env.DB_HOST,
