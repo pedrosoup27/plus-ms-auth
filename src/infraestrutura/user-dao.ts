@@ -1,11 +1,10 @@
+import { Pool } from 'pg';
 
-class UserDao{
+export class UserDao{
     constructor(){
         
     }
 }
-
-const { Pool } = require("pg");
 
 const pool = new Pool({
   host: process.env.DB_HOST,

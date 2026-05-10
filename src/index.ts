@@ -1,12 +1,13 @@
-require("dotenv").config();
-const express = require("express");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const { Pool } = require("pg");
-const cors = require("cors");
+import express, { Request, Response } from 'express';
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { Pool } from 'pg';
+import cors from 'cors';
 
-
+dotenv.config();
 const app = express();
+
 app.use(express.json());
 
 app.use(cors({
@@ -16,7 +17,7 @@ app.use(cors({
 
 const pool = new Pool({
   host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT) || 5432,
+  port: Number(process.env.DB_PORT) || 15432,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -26,7 +27,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
 const PORT = process.env.PORT || 3001;
 
 // POST /auth/login
-app.post("/auth/login", async (req, res) => {
+app.post("/auth/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(400).json({ error: "email e password são obrigatórios" });
@@ -45,7 +46,7 @@ app.post("/auth/login", async (req, res) => {
 });
 
 // POST /auth/refresh
-app.post("/auth/refresh", (req, res) => {
+app.post("/auth/refresh", (req: Request, res: Response) => {
   const { refresh } = req.body;
   if (!refresh) return res.status(400).json({ error: "refresh token obrigatório" });
 
@@ -59,20 +60,20 @@ app.post("/auth/refresh", (req, res) => {
 });
 
 // POST /auth/logout
-app.post("/auth/logout", (_req, res) => {
+app.post("/auth/logout", (req: Request, res: Response) => {
   // Stateless: em produção invalidar o refresh token no banco
   res.status(204).send();
 });
 
 // GET /auth/me
-app.get("/auth/me", (req, res) => {
+app.get("/auth/me", (req: Request, res: Response) => {
   const auth = req.headers.authorization;
   if (!auth?.startsWith("Bearer "))
     return res.status(401).json({ error: "Token não fornecido" });
 
   try {
     const payload = jwt.verify(auth.slice(7), JWT_SECRET);
-    res.json({ id: payload.sub, email: payload.email });
+    //res.json({ id: payload.sub, email: payload.email });
   } catch {
     res.status(401).json({ error: "Token inválido ou expirado" });
   }
