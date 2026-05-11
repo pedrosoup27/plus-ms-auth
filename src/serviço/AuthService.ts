@@ -16,10 +16,8 @@ export class AuthService implements AuthServiceInterface{
         }
 
         // Chamada para camada de infra
-        var userDto = this.userDao.getUserByEmail(email);
+        var userDto: UserDto = await this.userDao.getUserByEmail(email);
 
-      //   if (!user || !(await bcrypt.compare(password, user.password_hash))) // Isso aqui provavelmente vai pro serviço
-     //     return res.status(401).json({ error: "Credenciais inválidas" });
-        return new UserDto(1, "a", "a", "a");
+        return userDto;
     }
 }

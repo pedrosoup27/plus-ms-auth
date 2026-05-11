@@ -5,13 +5,14 @@ import cors from 'cors';
 
 dotenv.config();
 //Sugiro a gente migrar pra typescript pra utilizar interfaces e tipagem forte
-class AuthController{
+export class AuthController{
   constructor(authService: AuthServiceInterface){
     this.authService = authService;
   }
 
   authService: AuthServiceInterface;
-    
+  
+  // Por hora o método de login simplesmente busca o email no banco e retorna o dto
   async login(req: Request, res: Response){
     try{
       const { email, password } = req.body;
