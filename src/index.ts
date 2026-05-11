@@ -3,17 +3,11 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Pool } from 'pg';
-import cors from 'cors';
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
-
-app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:4001"],
-  credentials: true
-}));
 
 const pool = new Pool({
   host: process.env.DB_HOST,
