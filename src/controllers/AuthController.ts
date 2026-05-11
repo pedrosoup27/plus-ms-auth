@@ -1,7 +1,8 @@
-import { AuthServiceInterface } from '../serviço/AuthServiceInterface';
+import { AuthServiceInterface } from '../service/AuthServiceInterface';
 import express, { Request, Response } from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
+import { UserDto } from '../service/Dtos/UserDto';
 
 dotenv.config();
 //Sugiro a gente migrar pra typescript pra utilizar interfaces e tipagem forte

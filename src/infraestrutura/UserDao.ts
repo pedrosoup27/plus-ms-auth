@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 import { UserDaoInterface } from './UserDaoInterface';
-import { UserDto } from '../serviço/Dtos/UserDto';
-import { UserEntity } from '../serviço/Dtos/UserEntity';
+import { UserDto } from '../service/Dtos/UserDto';
+import { UserEntity } from '../service/Dtos/UserEntity';
 
 const pool = new Pool({
   host: process.env.DB_HOST,
