@@ -31,34 +31,67 @@ export class UserDao implements UserDaoInterface{
     }
   }
 
+  async getUserById(userId: string): Promise<UserEntity>{
+    try {
+      const { rows } = await pool.query("SELECT id, email, name, password_hash, is_active FROM users WHERE id = $1", [userId]);
+      
+      if (rows.length === 0) {
+        throw new Error("Usuário não encontrado");
+      }
+      
+      const { id, userEmail, password_hash, role, isActive } = rows[0];
+      return new UserEntity(id, userEmail, password_hash, role, isActive);
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
+      throw error;
+    }
+  }
+
   async post(userDto: UserDto): Promise<boolean>{
-    const query = 'INSERT INTO users (email, password_hash, role, is_active) VALUES ($1, $2, $3, $4)';
+    try{
+      const query = 'INSERT INTO users (email, password_hash, role, is_active) VALUES ($1, $2, $3, $4)';
 
-    const params = [ userDto.email, userDto.password, userDto.role, true ];
+      const params = [ userDto.email, userDto.password, userDto.role, true ];
 
-    const resultado = await pool.query(query, params);
+      const resultado = await pool.query(query, params);
 
-    return resultado.rowCount === 1;
+      return resultado.rowCount === 1;
+
+    } catch(error){
+      console.error("Erro ao incluir usuário:", error);
+      throw error;
+    }
+
   }
 
   async put(userDto: UserDto): Promise<boolean>{
-    const query = 'UPDATE users SET email = $1, password_hash = $2, role = $3, is_active = $4 WHERE id = $5';
+    try{
+      const query = 'UPDATE users SET email = $1, password_hash = $2, role = $3, is_active = $4 WHERE id = $5';
 
-    const params = [ userDto.email, userDto.password, userDto.role, true, userDto.id ];
+      const params = [ userDto.email, userDto.password, userDto.role, true, userDto.id ];
 
-    const resultado = await pool.query(query, params);
+      const resultado = await pool.query(query, params);
 
-    return resultado.rowCount === 1;
+      return resultado.rowCount === 1;
+    } catch(error){
+      console.error("Erro ao alterar usuário:", error);
+      throw error;
+    }
   }
 
-  async delete(userId: number): Promise<boolean>{
-    const query = "UPDATE users SET is_active = $1 WHERE id = $2";
+  async delete(userId: string): Promise<boolean>{
+    try{
+      const query = "UPDATE users SET is_active = $1 WHERE id = $2";
 
-    const params = [ false, userId ];
+      const params = [ false, userId ];
 
-    const resultado = await pool.query(query, params);
+      const resultado = await pool.query(query, params);
 
-    return resultado.rowCount === 1;
+      return resultado.rowCount === 1;
+    } catch(error){
+      console.error("Erro ao excluir usuário:", error);
+      throw error;
+    }
   }
 
 }

@@ -3,7 +3,8 @@ import { UserEntity } from "../service/Dtos/UserEntity"
 
 export interface UserDaoInterface{
     getUserByEmail(email: string): Promise<UserEntity>
+    getUserById(userId: string): Promise<UserEntity>
     post(userDto: UserDto): Promise<boolean>
     put(userDto: UserDto): Promise<boolean>
-    delete(userId: number): Promise<boolean>
+    delete(userId: string): Promise<boolean>
 }
