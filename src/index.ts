@@ -27,15 +27,38 @@ const authController = new AuthController(authService);
 
 /**
  * @openapi
- * /healthcheck:
- *  get:
- *    tag:
- *        - Healthcheck:
- *        description: Responds if app is up and running 
- *        responses: 200
+ * /auth/healthcheck:
+ *   get:
+ *     tags:
+ *       - Healthcheck
+ *     description: Responds if app is up and running
+ *     responses:
+ *       200:
+ *         description: OK
  */
 router.get('/healthcheck', (req, res) => { res.status(200).send('OK') })
 
+/** 
+ * @openapi
+ * /auth/teste:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: Get user info by email
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: aluno@pucrs.br
+ *     responses:
+ *       200:
+ *         description: OK
+ */
 router.post('/teste', (req, res) => authController.getUserEmailTeste(req, res));
 
 router.post('/login', (req, res) => authController.login(req, res));

@@ -29,7 +29,7 @@ const options: swaggerJSDoc.Options = {
           },
         },
       },
-      securitySchemas: {
+      securitySchemes: {
         bearerAuth: {
           type: 'http',
           scheme: 'bearer',
@@ -43,7 +43,12 @@ const options: swaggerJSDoc.Options = {
         }
     ],
   },
-  apis: ['./src/index.ts', './src/controllers/*.ts'], 
+  apis: [
+    './src/index.ts', 
+    './dist/index.js', 
+    './src/controllers/*.ts', 
+    './dist/controllers/*.js'
+  ], 
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
