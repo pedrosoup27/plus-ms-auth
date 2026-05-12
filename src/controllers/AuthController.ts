@@ -18,13 +18,20 @@ export class AuthController{
     try{
       const { email, password } = req.body;
 
-      var resultado = this.authService.login(email, password);
+      var resultado = await this.authService.login(email, password);
 
-      return res.status(200).json(resultado.catch);
-      // return res
+      return res.status(200).json(resultado);
     } catch(error){
       return res.status(401).json(error);
     }
+  }
+
+  async getUserEmailTeste(req: Request, res: Response){
+    const { email } = req.body;
+
+    var resultado = await this.authService.getLoginTeste(email);
+
+    return res.status(200).json(resultado);
   }
   
 }

@@ -12,6 +12,23 @@ const options: swaggerJSDoc.Options = {
       description: 'Documentação do Microsserviço de Autenticação para a loja plus size',
     },
     components: {
+      schemas: {
+        UserDto: {
+          type: 'object',
+          required: ['email', 'password'],
+          properties: {
+            email: { type: 'string', format: 'email', example: 'aluno@pucrs.br' },
+            password: { type: 'string', example: 'senha123' },
+          },
+        },
+        UserResponseDto: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            message: { type: 'string' },
+          },
+        },
+      },
       securitySchemas: {
         bearerAuth: {
           type: 'http',

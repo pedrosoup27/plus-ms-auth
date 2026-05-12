@@ -7,6 +7,7 @@ import { Router } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
 import swaggerDocs from './swagger';
+import { ok } from 'node:assert';
 
 dotenv.config();
 const app = express();
@@ -23,7 +24,23 @@ const authService = new AuthService(userDao);
 const authController = new AuthController(authService);
 
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-router.get('/login', (req, res) => authController.login(req, res));
+
+/**
+ * @openapi
+ * /healthcheck:
+ *  get:
+ *    tag:
+ *        - Healthcheck:
+ *        description: Responds if app is up and running 
+ *        responses: 200
+ */
+router.get('/healthcheck', (req, res) => { res.status(200).send('OK') })
+
+router.post('/teste', (req, res) => authController.getUserEmailTeste(req, res));
+
+router.post('/login', (req, res) => authController.login(req, res));
+
+app.get('/testedireto', (req, res) => res.send('O servidor está ouvindo!'));
 
 app.use('/auth', router);
 
