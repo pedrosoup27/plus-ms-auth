@@ -32,19 +32,33 @@ export class UserDao implements UserDaoInterface{
   }
 
   async post(userDto: UserDto): Promise<boolean>{
-    return false;
+    const query = 'INSERT INTO users (email, password_hash, role, is_active) VALUES ($1, $2, $3, $4)';
+
+    const params = [ userDto.email, userDto.password, userDto.role, true ];
+
+    const resultado = await pool.query(query, params);
+
+    return resultado.rowCount === 1;
   }
 
   async put(userDto: UserDto): Promise<boolean>{
-    return false;
+    const query = 'UPDATE users SET email = $1, password_hash = $2, role = $3, is_active = $4 WHERE id = $5';
+
+    const params = [ userDto.email, userDto.password, userDto.role, true, userDto.id ];
+
+    const resultado = await pool.query(query, params);
+
+    return resultado.rowCount === 1;
   }
 
   async delete(userId: number): Promise<boolean>{
-    return false;
+    const query = "UPDATE users SET is_active = $1 WHERE id = $2";
+
+    const params = [ false, userId ];
+
+    const resultado = await pool.query(query, params);
+
+    return resultado.rowCount === 1;
   }
 
 }
-
-// const { rows } = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
-
-// const user = rows[0];

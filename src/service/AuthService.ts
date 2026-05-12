@@ -4,7 +4,6 @@ import { AuthServiceInterface } from './AuthServiceInterface';
 import { UserDto } from './Dtos/UserDto';
 import { UserEntity } from './Dtos/UserEntity';
 import { UserResponseDto } from './Dtos/UserResponseDto';
-import { NOTIMP } from 'node:dns';
 
 // Injeção de dependência da UserDao (vamos passar para interface)
 export class AuthService implements AuthServiceInterface{
