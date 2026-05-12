@@ -13,7 +13,6 @@ export class AuthController{
 
   authService: AuthServiceInterface;
   
-  // Por hora o método de login simplesmente busca o email no banco e retorna o dto
   async login(req: Request, res: Response){
     try{
       const { email, password } = req.body;
@@ -27,12 +26,21 @@ export class AuthController{
   }
 
   async getUserEmailTeste(req: Request, res: Response){
-    const { email } = req.body;
+    try{
+      const { email } = req.body;
 
-    var resultado = await this.authService.getLoginTeste(email);
+      if (!email) {
+        return res.status(400).json({ error: "Email é obrigatório" });
+      }
 
-    return res.status(200).json(resultado);
+      const resultado = await this.authService.getLoginTeste(email);
+
+      return res.status(200).json(resultado);
+    } catch(error){
+
+      console.error("Erro no Controller:", error);
+      return res.status(500).json({ error: "Erro interno no servidor" });
+    }
   }
   
 }
-
