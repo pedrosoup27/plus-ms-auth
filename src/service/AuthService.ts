@@ -6,6 +6,7 @@ import { UserEntity } from '../infraestrutura/entities/UserEntity';
 import { UserResponseDto } from './Dtos/Responses/UserResponseDto';
 import { AuthResponseDto } from './Dtos/Responses/AuthResponseDto';
 import { UserPostRequestDto } from './Dtos/Requests/UserPostRequestDto';
+const bcrypt = require('bcryptjs');
 // import * as bcrypt from 'bcryptjs';
 
 // Injeção de dependência da UserDao (vamos passar para interface)
@@ -56,7 +57,7 @@ export class AuthService implements AuthServiceInterface{
     }
 
     async cadastro(postDto: UserPostRequestDto): Promise<boolean>{
-        // postDto.password = await bcrypt.hash(postDto.password, 10);
+        postDto.password = await bcrypt.hash(postDto.password, 10);
 
         var resultado = await this.userDao.post(postDto);
 
