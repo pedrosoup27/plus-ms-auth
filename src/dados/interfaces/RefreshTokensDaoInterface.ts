@@ -5,7 +5,7 @@ import { UserEntity } from "../entities/UserEntity"
 
 export interface RefreshTokensDaoInterface{
     create(userId: number, token: string, expiresAt: Date): Promise<boolean>;
-    findByToken(token: string): Promise<RefreshTokensEntity>;
+    findByToken(token: string): Promise<RefreshTokensEntity | null>;
     deleteByToken(token: string): Promise<boolean>;
     deleteExpiredTokens(): Promise<void>;
 }

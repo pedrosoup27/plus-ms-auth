@@ -119,22 +119,6 @@ export class AuthService implements AuthServiceInterface{
             throw new Error('Refresh token é obrigatório');
         }
 
-        const jwtSecret = process.env.JWT_SECRET;
-        if (!jwtSecret) {
-            throw new Error('JWT_SECRET não está configurado');
-        }
-
-        try {
-            jwt.verify(refresh, jwtSecret);
-        } catch (error) {
-            throw new Error('Refresh token inválido');
-        }
-
-        const storedToken = await this.refreshTokensDao.findByToken(refresh);
-        if (!storedToken) {
-            throw new Error('Refresh token não encontrado');
-        }
-
         return await this.refreshTokensDao.deleteByToken(refresh);
     }
     
