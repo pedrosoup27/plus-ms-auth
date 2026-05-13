@@ -45,6 +45,7 @@ export class AuthController{
 
       return res.status(200).json(resultado);
     } catch(error){
+      console.error("esse é o erro desgraça:", error); // linha para debugar
       return res.status(401).json({ error: "Credenciais inválidas" });
     }
   }
@@ -104,7 +105,8 @@ export class AuthController{
       return res.status(200).json(resultado);
 
     } catch(error){
-      return res.status(500).json({ error: "Erro interno" });
+      console.error("erro no cadastro:", error );
+      return res.status(500).json({error: "Erro interno"});
     }
   }
   
