@@ -6,14 +6,7 @@ import 'dotenv/config';
 import { UserPostRequestDto } from '../service/Dtos/Requests/UserPostRequestDto';
 import { RefreshTokensDaoInterface } from './interfaces/RefreshTokensDaoInterface';
 import { RefreshTokensEntity } from './entities/RefreshTokensEntity';
-
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT) || 15432,
-  user: process.env.DB_USER,
-  password: String(process.env.DB_PASSWORD),
-  database: process.env.DB_NAME,
-});
+import pool from './config/DatabaseConfig';
 
 export class RefreshTokensDao implements RefreshTokensDaoInterface{
     constructor(){
