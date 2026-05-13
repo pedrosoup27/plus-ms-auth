@@ -45,7 +45,7 @@ export class AuthController{
 
       return res.status(200).json(resultado);
     } catch(error){
-      return res.status(401).json(error);
+      return res.status(401).json({ error: "Credenciais inválidas" });
     }
   }
 
@@ -59,28 +59,36 @@ export class AuthController{
       return res.status(200).json(resultado);
 
     } catch(error){
-      return res.status(401).json(error);
+      return res.status(401).json({ error: "Token inválido" });
     }
   }
 
   async logout(req: Request, res: Response){
     try{
-      var resultado = await this.authService.logout();
+      const { refresh } = req.body;
 
-      return res.status(200);
+      var resultado = await this.authService.logout(refresh);
+
+      return res.status(200).json({ success: true });
     } catch(error){
-      return res.status(401).json(error);
+      return res.status(401).json({ error: "Token inválido" });
     }
   }
 
   async me(req: Request, res: Response){
     try{
-      var resultado = this.authService.me();
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'Token de acesso obrigatório' });
+      }
+      const accessToken = authHeader.substring(7);
+
+      var resultado = await this.authService.me(accessToken);
 
       return res.status(200).json(resultado);
 
     } catch(error){
-      return res.status(401).json(error);
+      return res.status(401).json({ error: "Token inválido" });
     }
   }
 
@@ -91,12 +99,12 @@ export class AuthController{
 
       var postDto = new UserPostRequestDto(email, password, role);
 
-      var resultado = this.authService.cadastro(postDto);
+      var resultado = await this.authService.cadastro(postDto);
 
       return res.status(200).json(resultado);
 
     } catch(error){
-      return res.status(401).json(error);
+      return res.status(500).json({ error: "Erro interno" });
     }
   }
   

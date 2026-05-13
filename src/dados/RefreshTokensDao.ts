@@ -35,14 +35,14 @@ export class RefreshTokensDao implements RefreshTokensDaoInterface{
 
     async findByToken(token: string): Promise<RefreshTokensEntity>{
         try{
-            const query = "SELECT user_id FROM refresh_tokens WHERE token = $1 AND expires_at > NOW();";
+            const query = "SELECT id, user_id, token, expires_at, created_at FROM refresh_tokens WHERE token = $1 AND expires_at > NOW();";
             const params = [ token ];
 
             var resultado = await pool.query(query, params);
 
             const row = resultado.rows[0];
 
-            return new RefreshTokensEntity(row.id, row.user_id, row.token, row.expiresAt, row.created_at);
+            return new RefreshTokensEntity(row.id, row.user_id, row.token, row.expires_at, row.created_at);
 
         } catch(error){
             console.error("Erro ao buscar refresh token", error);
@@ -50,24 +50,27 @@ export class RefreshTokensDao implements RefreshTokensDaoInterface{
         }
     }
 
-    // Implementar posteriormente (não urgente)
+    async deleteByToken(token: string): Promise<boolean>{
+        try{
+            const query = "DELETE FROM refresh_tokens WHERE token = $1;";
+            const params = [ token ];
 
-    // async deleteByToken(token: string): Promise<boolean>{
-    //     try{
-            
-    //     } catch(error){
-    //         console.error("Erro ao buscar deletar token", error);
-    //         throw error;
-    //     }
-    // }
+            const resultado = await pool.query(query, params);
+            return resultado.rowCount === 1;
+        } catch(error){
+            console.error("Erro ao deletar refresh token", error);
+            throw error;
+        }
+    }
 
-    // async deleteExpiredTokens(): Promise<void>{
-    //     try{
-            
-    //     } catch(error){
-    //         console.error("Erro ao buscar deletar tokens expiradas", error);
-    //         throw error;
-    //     }
-    // }
+    async deleteExpiredTokens(): Promise<void>{
+        try{
+            const query = "DELETE FROM refresh_tokens WHERE expires_at <= NOW();";
+            await pool.query(query);
+        } catch(error){
+            console.error("Erro ao deletar refresh tokens expirados", error);
+            throw error;
+        }
+    }
 
 }

@@ -79,14 +79,71 @@ router.get('/getUserByEmail', (req, res) => authController.getUserEmailTeste(req
  *               email:
  *                 type: string
  *                 example: nome@email.com
+ *               password:
+ *                 type: string
+ *                 example: senha123
  *     responses:
  *       200:
- *         description: OK
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                 refresh:
+ *                   type: string
+ *       401:
+ *         description: Invalid credentials
  */
 router.post('/login', (req, res) => authController.login(req, res));
 
+/**
+ * @openapi
+ * /auth/logout:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: Log out and invalidate the current refresh token
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ */
 router.post('/logout', (req, res) => authController.logout(req, res));
 
+/**
+ * @openapi
+ * /auth/refresh:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: Refresh the access token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               refresh:
+ *                 type: string
+ *                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *     responses:
+ *       200:
+ *         description: Refresh token accepted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                 refresh:
+ *                   type: string
+ *       401:
+ *         description: Invalid refresh token
+ */
 router.post('/refresh', (req, res) => authController.refresh(req, res));
 
 /** 
@@ -118,6 +175,28 @@ router.post('/refresh', (req, res) => authController.refresh(req, res));
  */
 router.post('/cadastro', (req, res) => authController.cadastro(req, res));
 
+/**
+ * @openapi
+ * /auth/me:
+ *   get:
+ *     tags:
+ *       - User
+ *     summary: Get authenticated user information
+ *     responses:
+ *       200:
+ *         description: User data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                 email:
+ *                   type: string
+ *       401:
+ *         description: Unauthorized
+ */
 router.get('/me', (req, res) => authController.me(req, res));
 
 app.use('/auth', router);

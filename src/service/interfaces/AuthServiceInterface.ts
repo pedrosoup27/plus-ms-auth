@@ -4,9 +4,10 @@ import { UserResponseDto } from '../Dtos/Responses/UserResponseDto';
 import { AuthResponseDto } from '../Dtos/Responses/AuthResponseDto';
 import { UserEntity } from '../../dados/entities/UserEntity';
 import { UserPostRequestDto } from '../Dtos/Requests/UserPostRequestDto';
+import { UserDaoInterface } from '../../dados/interfaces/UserDaoInterface';
 
 export interface AuthServiceInterface{
-    userDao: UserDao;
+    userDao: UserDaoInterface;
 
     // Método para teste dos endpoints
     getLoginTeste(email: string): Promise<UserDto>;
@@ -19,8 +20,8 @@ export interface AuthServiceInterface{
     // ALINHAR OS RETORNOS E OS DTOS
     login(email: string, password: string): Promise<AuthResponseDto>;
     refresh(refresh: string): Promise<AuthResponseDto>;
-    logout(): Promise<boolean>;
-    me(): Promise<UserResponseDto>;
+    logout(refresh: string): Promise<boolean>;
+    me(accessToken: string): Promise<UserResponseDto>;
     cadastro(postDto: UserPostRequestDto): Promise<boolean>;
 
 

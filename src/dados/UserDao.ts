@@ -27,14 +27,14 @@ export class UserDao implements UserDaoInterface{
 
   async getUserByEmail(email: string): Promise<UserEntity>{
       try {
-      const { rows } = await pool.query("SELECT id, email, password_hash, is_active FROM users WHERE email = $1", [email]);
+      const { rows } = await pool.query("SELECT id, email, password_hash, role, is_active FROM users WHERE email = $1", [email]);
       
       if (rows.length === 0) {
         throw new Error("Usuário não encontrado");
       }
       
-      const { id, userEmail, password_hash, role, isActive } = rows[0];
-      return new UserEntity(id, userEmail, password_hash, role, isActive);
+      const { id, email: userEmail, password_hash, role, is_active } = rows[0];
+      return new UserEntity(id, userEmail, password_hash, role, is_active);
     } catch (error) {
       console.error("Erro ao buscar usuário:", error);
       throw error;
@@ -43,14 +43,14 @@ export class UserDao implements UserDaoInterface{
 
   async getUserById(userId: string): Promise<UserEntity>{
     try {
-      const { rows } = await pool.query("SELECT id, email, password_hash, is_active FROM users WHERE id = $1", [userId]);
+      const { rows } = await pool.query("SELECT id, email, password_hash, role, is_active FROM users WHERE id = $1", [userId]);
       
       if (rows.length === 0) {
         throw new Error("Usuário não encontrado");
       }
       
-      const { id, userEmail, password_hash, role, isActive } = rows[0];
-      return new UserEntity(id, userEmail, password_hash, role, isActive);
+      const { id, email: userEmail, password_hash, role, is_active } = rows[0];
+      return new UserEntity(id, userEmail, password_hash, role, is_active);
     } catch (error) {
       console.error("Erro ao buscar usuário:", error);
       throw error;
