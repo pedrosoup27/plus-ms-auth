@@ -1,6 +1,6 @@
-import { UserPostRequestDto } from "../service/Dtos/Requests/UserPostRequestDto"
-import { UserDto } from "../service/Dtos/UserDto"
-import { UserEntity } from "./entities/UserEntity"
+import { UserPostRequestDto } from "../../service/Dtos/Requests/UserPostRequestDto"
+import { UserDto } from "../../service/Dtos/UserDto"
+import { UserEntity } from "../entities/UserEntity"
 
 export interface UserDaoInterface{
     getUserByEmail(email: string): Promise<UserEntity>

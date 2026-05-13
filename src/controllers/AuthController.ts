@@ -1,4 +1,4 @@
-import { AuthServiceInterface } from '../service/AuthServiceInterface';
+import { AuthServiceInterface } from '../service/interfaces/AuthServiceInterface';
 import express, { Request, Response } from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';

@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
-import { UserDao } from './infraestrutura/UserDao';
+import { UserDao } from './dados/UserDao';
 import { AuthService } from './service/AuthService';
 import { AuthController } from './controllers/AuthController';
 import { Router } from 'express';

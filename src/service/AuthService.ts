@@ -1,8 +1,8 @@
 import { resourceUsage } from 'node:process';
-import { UserDao } from '../infraestrutura/UserDao';
-import { AuthServiceInterface } from './AuthServiceInterface';
+import { UserDao } from '../dados/UserDao';
+import { AuthServiceInterface } from './interfaces/AuthServiceInterface';
 import { UserDto } from './Dtos/UserDto';
-import { UserEntity } from '../infraestrutura/entities/UserEntity';
+import { UserEntity } from '../dados/entities/UserEntity';
 import { UserResponseDto } from './Dtos/Responses/UserResponseDto';
 import { AuthResponseDto } from './Dtos/Responses/AuthResponseDto';
 import { UserPostRequestDto } from './Dtos/Requests/UserPostRequestDto';

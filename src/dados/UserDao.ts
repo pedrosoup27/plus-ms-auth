@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { UserDaoInterface } from './UserDaoInterface';
+import { UserDaoInterface } from './interfaces/UserDaoInterface';
 import { UserDto } from '../service/Dtos/UserDto';
 import { UserEntity } from './entities/UserEntity';
 import 'dotenv/config';

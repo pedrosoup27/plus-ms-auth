@@ -1,9 +1,9 @@
-import { UserDao } from '../infraestrutura/UserDao';
-import { UserDto } from './Dtos/UserDto';
-import { UserResponseDto } from './Dtos/Responses/UserResponseDto';
-import { AuthResponseDto } from './Dtos/Responses/AuthResponseDto';
-import { UserEntity } from '../infraestrutura/entities/UserEntity';
-import { UserPostRequestDto } from './Dtos/Requests/UserPostRequestDto';
+import { UserDao } from '../../dados/UserDao';
+import { UserDto } from '../Dtos/UserDto';
+import { UserResponseDto } from '../Dtos/Responses/UserResponseDto';
+import { AuthResponseDto } from '../Dtos/Responses/AuthResponseDto';
+import { UserEntity } from '../../dados/entities/UserEntity';
+import { UserPostRequestDto } from '../Dtos/Requests/UserPostRequestDto';
 
 export interface AuthServiceInterface{
     userDao: UserDao;
