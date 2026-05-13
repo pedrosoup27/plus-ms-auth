@@ -1,5 +1,5 @@
-import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import express, { Request, Response } from 'express';
 import { UserDao } from './infraestrutura/UserDao';
 import { AuthService } from './service/AuthService';
 import { AuthController } from './controllers/AuthController';
@@ -38,13 +38,35 @@ const authController = new AuthController(authService);
  */
 router.get('/healthcheck', (req, res) => { res.status(200).send('OK') })
 
-/** 
+/**
  * @openapi
- * /auth/teste:
- *   post:
+ * /auth/getUserByEmail:
+ *   get:
  *     tags:
  *       - User
  *     summary: Get user info by email
+ *     parameters:
+ *       - in: query
+ *         name: email
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: OK
+ */
+router.get('/getUserByEmail', (req, res) => authController.getUserEmailTeste(req, res));
+
+// ENDPOINTS IMPORTANTES AQUI
+
+// Arrumar os params aqui
+/** 
+ * @openapi
+ * /auth/login:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: Log into the website
  *     requestBody:
  *       required: true
  *       content:
@@ -54,16 +76,47 @@ router.get('/healthcheck', (req, res) => { res.status(200).send('OK') })
  *             properties:
  *               email:
  *                 type: string
- *                 example: aluno@pucrs.br
+ *                 example: nome@email.com
  *     responses:
  *       200:
  *         description: OK
  */
-router.post('/teste', (req, res) => authController.getUserEmailTeste(req, res));
-
 router.post('/login', (req, res) => authController.login(req, res));
 
-app.get('/testedireto', (req, res) => res.send('O servidor está ouvindo!'));
+router.post('/logout', (req, res) => authController.logout(req, res));
+
+router.post('/refresh', (req, res) => authController.refresh(req, res));
+
+/** 
+ * @openapi
+ * /auth/cadastro:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: Cadastro de novo usuário
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: nome@email.com
+ *               password:
+ *                 type: string
+ *                 example: senha123
+ *               role:
+ *                 type: string
+ *                 example: admin
+ *     responses:
+ *       200:
+ *         description: OK
+ */
+router.post('/cadastro', (req, res) => authController.cadastro(req, res));
+
+router.get('/me', (req, res) => authController.me(req, res));
 
 app.use('/auth', router);
 

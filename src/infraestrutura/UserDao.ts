@@ -1,15 +1,25 @@
 import { Pool } from 'pg';
 import { UserDaoInterface } from './UserDaoInterface';
 import { UserDto } from '../service/Dtos/UserDto';
-import { UserEntity } from '../service/Dtos/UserEntity';
+import { UserEntity } from './entities/UserEntity';
+import 'dotenv/config';
+import { UserPostRequestDto } from '../service/Dtos/Requests/UserPostRequestDto';
 
 const pool = new Pool({
   host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT) || 5432,
+  port: Number(process.env.DB_PORT) || 15432,
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+  password: String(process.env.DB_PASSWORD),
   database: process.env.DB_NAME,
 });
+
+console.log(
+  "Host: ", process.env.DB_HOST,
+  "Port: ", process.env.DB_PORT,
+  "User: ", process.env.DB_USER,
+  "Password: ", process.env.DB_PASSWORD,
+  "Database: ", process.env.DB_NAME
+);
 
 export class UserDao implements UserDaoInterface{
     constructor(){
@@ -17,7 +27,7 @@ export class UserDao implements UserDaoInterface{
 
   async getUserByEmail(email: string): Promise<UserEntity>{
       try {
-      const { rows } = await pool.query("SELECT id, email, name, password_hash, is_active FROM users WHERE email = $1", [email]);
+      const { rows } = await pool.query("SELECT id, email, password_hash, is_active FROM users WHERE email = $1", [email]);
       
       if (rows.length === 0) {
         throw new Error("Usuário não encontrado");
@@ -33,7 +43,7 @@ export class UserDao implements UserDaoInterface{
 
   async getUserById(userId: string): Promise<UserEntity>{
     try {
-      const { rows } = await pool.query("SELECT id, email, name, password_hash, is_active FROM users WHERE id = $1", [userId]);
+      const { rows } = await pool.query("SELECT id, email, password_hash, is_active FROM users WHERE id = $1", [userId]);
       
       if (rows.length === 0) {
         throw new Error("Usuário não encontrado");
@@ -47,7 +57,7 @@ export class UserDao implements UserDaoInterface{
     }
   }
 
-  async post(userDto: UserDto): Promise<boolean>{
+  async post(userDto: UserPostRequestDto): Promise<boolean>{
     try{
       const query = 'INSERT INTO users (email, password_hash, role, is_active) VALUES ($1, $2, $3, $4)';
 
@@ -64,11 +74,11 @@ export class UserDao implements UserDaoInterface{
 
   }
 
-  async put(userDto: UserDto): Promise<boolean>{
+  async put(userDto: UserPostRequestDto): Promise<boolean>{
     try{
       const query = 'UPDATE users SET email = $1, password_hash = $2, role = $3, is_active = $4 WHERE id = $5';
 
-      const params = [ userDto.email, userDto.password, userDto.role, true, userDto.id ];
+      const params = [ userDto.email, userDto.password, userDto.role, true ];
 
       const resultado = await pool.query(query, params);
 

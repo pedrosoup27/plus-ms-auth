@@ -1,10 +1,11 @@
+import { UserPostRequestDto } from "../service/Dtos/Requests/UserPostRequestDto"
 import { UserDto } from "../service/Dtos/UserDto"
-import { UserEntity } from "../service/Dtos/UserEntity"
+import { UserEntity } from "./entities/UserEntity"
 
 export interface UserDaoInterface{
     getUserByEmail(email: string): Promise<UserEntity>
     getUserById(userId: string): Promise<UserEntity>
-    post(userDto: UserDto): Promise<boolean>
-    put(userDto: UserDto): Promise<boolean>
+    post(userDto: UserPostRequestDto): Promise<boolean>
+    put(userDto: UserPostRequestDto): Promise<boolean>
     delete(userId: string): Promise<boolean>
 }
