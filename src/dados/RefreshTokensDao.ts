@@ -33,12 +33,16 @@ export class RefreshTokensDao implements RefreshTokensDaoInterface{
         }
     }
 
-    async findByToken(token: string): Promise<RefreshTokensEntity>{
+    async findByToken(token: string): Promise<RefreshTokensEntity | null>{
         try{
             const query = "SELECT id, user_id, token, expires_at, created_at FROM refresh_tokens WHERE token = $1 AND expires_at > NOW();";
             const params = [ token ];
 
             var resultado = await pool.query(query, params);
+
+            if (resultado.rows.length === 0) {
+                return null;
+            }
 
             const row = resultado.rows[0];
 

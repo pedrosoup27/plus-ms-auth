@@ -72,6 +72,7 @@ export class AuthController{
 
       return res.status(200).json({ success: true });
     } catch(error){
+      console.error("ERRO REAL NO LOGOUT:", error);
       return res.status(401).json({ error: "Token inválido" });
     }
   }
