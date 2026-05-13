@@ -6,12 +6,14 @@ import { UserEntity } from '../dados/entities/UserEntity';
 import { UserResponseDto } from './Dtos/Responses/UserResponseDto';
 import { AuthResponseDto } from './Dtos/Responses/AuthResponseDto';
 import { UserPostRequestDto } from './Dtos/Requests/UserPostRequestDto';
+import { RefreshTokensDaoInterface } from '../dados/interfaces/RefreshTokensDaoInterface';
+import { UserDaoInterface } from '../dados/interfaces/UserDaoInterface';
 const bcrypt = require('bcryptjs');
 // import * as bcrypt from 'bcryptjs';
 
 // Injeção de dependência da UserDao (vamos passar para interface)
 export class AuthService implements AuthServiceInterface{
-    constructor(userDao: UserDao){
+    constructor(userDao: UserDaoInterface, refreshTokensDao: RefreshTokensDaoInterface){
         this.userDao = userDao;
     }
 

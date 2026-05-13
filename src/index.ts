@@ -8,6 +8,7 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
 import swaggerDocs from './swagger';
 import { ok } from 'node:assert';
+import { RefreshTokensDao } from './dados/RefreshTokensDao';
 
 dotenv.config();
 const app = express();
@@ -20,7 +21,8 @@ const PORT = Number(process.env.PORT ?? 3001); // const PORT = process.env.PORT 
 // // Possivelmente passar as rotas para um arquivo authRoute.ts no futuro
 const router = Router();
 const userDao = new UserDao();
-const authService = new AuthService(userDao);
+const refreshTokensDao = new RefreshTokensDao();
+const authService = new AuthService(userDao, refreshTokensDao);
 const authController = new AuthController(authService);
 
 //app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
