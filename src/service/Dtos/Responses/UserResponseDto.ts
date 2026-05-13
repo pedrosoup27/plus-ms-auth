@@ -1,10 +1,10 @@
 export class UserResponseDto{
     // Possível response para o user (ainda sendo implementada)
-    constructor(id: number, message: string){
+    constructor(id: number, email: string){
         this.id = id;
-        this.message = message;
+        this.email = email;
     }
 
     id: number;
-    message: string;
+    email: string;
 }
