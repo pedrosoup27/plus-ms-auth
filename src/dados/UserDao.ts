@@ -4,22 +4,7 @@ import { UserDto } from '../service/Dtos/UserDto';
 import { UserEntity } from './entities/UserEntity';
 import 'dotenv/config';
 import { UserPostRequestDto } from '../service/Dtos/Requests/UserPostRequestDto';
-
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT) || 15432,
-  user: process.env.DB_USER,
-  password: String(process.env.DB_PASSWORD),
-  database: process.env.DB_NAME,
-});
-
-console.log(
-  "Host: ", process.env.DB_HOST,
-  "Port: ", process.env.DB_PORT,
-  "User: ", process.env.DB_USER,
-  "Password: ", process.env.DB_PASSWORD,
-  "Database: ", process.env.DB_NAME
-);
+import pool from './config/DatabaseConfig';
 
 export class UserDao implements UserDaoInterface{
     constructor(){
